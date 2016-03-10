@@ -150,11 +150,11 @@ class DesktopFile:
         """Function to get the mode and the exec config in a desktop file"""
         Shortcuts = self.config.get('Desktop Entry', 'X-Ayatana-Desktop-Shortcuts')
         exec_config= self.get_exec_config(self.app_exec)
-        if ( 'BumblebeeEnable' in Shortcuts and 'vblank_mode=0 primusrun ' in self.app_exec and exec_config[0] == True ):
+        if ( 'BumblebeeEnable' in Shortcuts and 'primusrun ' in self.app_exec and exec_config[0] == True ):
             return [Config.mode_keys['perf']] + exec_config[1:]
-        elif ( 'BumblebeeDisable' in Shortcuts and 'vblank_mode=0 primusrun ' in self.app_exec and exec_config[0] == False ) :
+        elif ( 'BumblebeeDisable' in Shortcuts and 'primusrun ' in self.app_exec and exec_config[0] == False ) :
             return [Config.mode_keys['eco']] + exec_config[1:]
-        elif ( 'BumblebeeDisable' in Shortcuts and not 'vblank_mode=0 primusrun ' in self.app_exec ):
+        elif ( 'BumblebeeDisable' in Shortcuts and not 'primusrun ' in self.app_exec ):
             return [Config.mode_keys['option']] + self.get_exec_config(self.config.get('BumblebeeDisable Shortcut Group','Exec'))[1:]
         else: return ['Unrecognized mode'] + exec_config[1:] 
 			
@@ -165,8 +165,8 @@ class DesktopFile:
 
     def get_exec_config(self, Exec, i=-1, 
                 case={'-32':set_true, '-f':set_true, '-c':get_compression},
-                skip=['vblank_mode=0 primusrun', 'vblank_mode=0 primusrun', '-d', ':0', ':1', ':2'] + Config.compression_list):
-        """Function to search for configuration inside vblank_mode=0 primusrun arguments in the desktop file object : 
+                skip=['primusrun', 'primusrun', '-d', ':0', ':1', ':2'] + Config.compression_list):
+        """Function to search for configuration inside primusrun arguments in the desktop file object : 
         Force_eco, 32bits, Compression"""	
 		arg_list=re.split(' ',Exec)	
         exec_config={'-f':False, '-32':False, '-c':'default'}
@@ -203,7 +203,7 @@ class DesktopFile:
         Exec = self.config.get('Desktop Entry', 'Exec')
         #TODO Check if this is really needed
         #self.config.set('Desktop Entry','OnlyShowIn','GNOME;Unity;")
-        self.add_shortcut_section('BumblebeeDisable Shortcut Group', 'Launch with Bumblebee', 'vblank_mode=0 primusrun ' + Exec) #Default setting is optional and forced
+        self.add_shortcut_section('BumblebeeDisable Shortcut Group', 'Launch with Bumblebee', 'primusrun ' + Exec) #Default setting is optional and forced
         self.add_shortcut_section('BumblebeeEnable Shortcut Group', 'Launch without Bumblebee', Exec)
         self.write_config_to_file(Config.user_desktop_file_directory + self.file_name_with_extension)
         if self.local == False: os.chmod(Config.user_desktop_file_directory + self.file_name_with_extension,0755)
@@ -255,16 +255,16 @@ class DesktopFile:
 # FUNCTIONS TO CONFIGURE THE EXECUTION OF THE APPLICATION		
 	
     def set_exec_config(self, mode, bits32, compression):
-        """Function to set the option for vblank_mode=0 primusrun : default, 32 bits, on battery, compression"""
+        """Function to set the option for primusrun : default, 32 bits, on battery, compression"""
         option=''
         if bits32==True: option+='-32 '
         if not (compression == "default" or compression == Config.default_compression) : option+='-c '+ compression + ' '
         clean_exec= self.config.get('BumblebeeEnable Shortcut Group','Exec')
-        self.config.set('BumblebeeDisable Shortcut Group','Exec','vblank_mode=0 primusrun ' + option + clean_exec)
+        self.config.set('BumblebeeDisable Shortcut Group','Exec','primusrun ' + option + clean_exec)
         if mode == Config.mode_keys['perf']: 
-            self.set_exec_config_default('vblank_mode=0 primusrun ' + option + clean_exec, 'BumblebeeDisable', 'BumblebeeEnable')
+            self.set_exec_config_default('primusrun ' + option + clean_exec, 'BumblebeeDisable', 'BumblebeeEnable')
         elif mode == Config.mode_keys['eco']: 
-            self.set_exec_config_default('vblank_mode=0 primusrun ' + option + clean_exec, 'BumblebeeEnable', 'BumblebeeDisable')
+            self.set_exec_config_default('primusrun ' + option + clean_exec, 'BumblebeeEnable', 'BumblebeeDisable')
         else: 
             self.set_exec_config_default(clean_exec, 'BumblebeeEnable', 'BumblebeeDisable')
         self.write_config_to_file(self.file_path)
