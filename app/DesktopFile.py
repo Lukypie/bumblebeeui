@@ -150,7 +150,7 @@ class DesktopFile:
         """Function to get the mode and the exec config in a desktop file"""
         Shortcuts = self.config.get('Desktop Entry', 'X-Ayatana-Desktop-Shortcuts')
         exec_config= self.get_exec_config(self.app_exec)
-        if ( 'BumblebeeEnable' in Shortcuts and 'primusrun ' in self.app_exec and exec_config[0] == True ):
+        if ( 'BumblebeeEnable' in Shortcuts and 'vblank_mode=0 primusrun ' in self.app_exec and exec_config[0] == True ):
             return [Config.mode_keys['perf']] + exec_config[1:]
         elif ( 'BumblebeeDisable' in Shortcuts and 'primusrun ' in self.app_exec and exec_config[0] == False ) :
             return [Config.mode_keys['eco']] + exec_config[1:]
