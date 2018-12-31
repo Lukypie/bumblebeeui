@@ -17,20 +17,7 @@
 #
 ### END LICENSE
 
-I am very angry about that. But I had to reupload this since the original bumblebee repo seems to be deleted;
-I think that this can be a good program to manage bumblebee-cards for new users. We should wonder why some people
-would judge Linux hard to use. Nvidia didn't add a decent support to this technology, so this can be a good replacement.
-There are not program-profiles like in Windows, so this program can help to create them. 
-
-TODO
-	Basically, for doing the trick, you must have a .desktop file in /usr/share/applications, I have in mind to manage 
-	also the one that people want to add at example wine programs installed in the ".local/share/applications" folder
-	(Like playonlinux does) 
-	There are also plenty ways to manage bumblebee, like adding a file-manager command which can be able to run bumblebee
-	through wine or not. That's not properly a clean way since we need to put "primusrun" before our command and we don't know
-	if this will be wine or not. 
-	
-	Maybe, I will add a .desktop manager like "alacarte" or "menulibre" to create profiles inside this program.
+This is a reupload for bumblebee-ui, which is not maintained anymore, would be cool to improve it
 
 
 ### OLD README ###
